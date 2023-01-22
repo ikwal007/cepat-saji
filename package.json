@@ -23,8 +23,11 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@tomtom-international/web-sdk-maps": "^6.22.1",
         "daisyui": "^2.46.1",
+        "framer-motion": "^8.5.0",
         "react-icons": "^4.7.1",
-        "react-typing-effect": "^2.0.5"
+        "react-typing-effect": "^2.0.5",
+        "swiper": "^8.4.6"
     }
 }

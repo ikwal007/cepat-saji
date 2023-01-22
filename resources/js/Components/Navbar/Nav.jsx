@@ -2,7 +2,7 @@ import { Link } from '@inertiajs/inertia-react'
 import React from 'react'
 import { BiUser } from 'react-icons/bi'
 
-const NavGuest = () => {
+const Nav = ({ props }) => {
     return (
         <nav className="navbar bg-neutral text-base-100 md:rounded-b-2xl md:mx-20 md:px-5">
             <div className="navbar-start">
@@ -37,7 +37,7 @@ const NavGuest = () => {
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                    <li className='bg-base-100 rounded-3xl text-neutral'>
+                    <li className="bg-base-100 rounded-3xl text-neutral">
                         <a>Home</a>
                     </li>
                     <li>
@@ -54,20 +54,33 @@ const NavGuest = () => {
                             <BiUser className="w-10 h-10 text-neutral group-hover:text-base-100" />
                         </div>
                     </label>
-                    <ul
-                        tabIndex={0}
-                        className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-neutral rounded-box w-52 transition ease-in-out duration-700">
-                        <li>
-                            <Link href='/register'>SignUp</Link>
-                        </li>
-                        <li>
-                            <Link href='/login'>Login</Link>
-                        </li>
-                    </ul>
+                    {!props.auth.user ? (
+                        <ul
+                            tabIndex={0}
+                            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-neutral rounded-box w-52 transition ease-in-out duration-700">
+                            <li>
+                                <Link href="/register">SignUp</Link>
+                            </li>
+                            <li>
+                                <Link href="/login">Login</Link>
+                            </li>
+                        </ul>
+                    ) : (
+                        <ul
+                            tabIndex={0}
+                            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-neutral rounded-box w-52 transition ease-in-out duration-700">
+                            <li>
+                                <Link href="/profile">Profile</Link>
+                            </li>
+                            <li>
+                                <Link href="/logout" as='button' method='post' >Logout</Link>
+                            </li>
+                        </ul>
+                    )}
                 </div>
             </div>
         </nav>
     )
 }
 
-export default NavGuest
+export default Nav

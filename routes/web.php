@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\DashboardProfileController;
+use App\Http\Controllers\FindRestorantController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderMenuController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -23,7 +28,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->middleware('guest');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -33,6 +38,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/home', [HomeController::class, 'index'])->name('home.index');
+    Route::get('/find-restorant', [FindRestorantController::class, 'index'])->name('findRestorant.index');
+    Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+    Route::get('/order-menu', [OrderMenuController::class, 'index'])->name('orderMenu.index');
+    Route::resource('dashboard-profile', DashboardProfileController::class);
 });
 
 require __DIR__.'/auth.php';
