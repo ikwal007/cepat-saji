@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardProfileController;
 use App\Http\Controllers\FindRestorantController;
 use App\Http\Controllers\HomeController;
@@ -30,9 +31,9 @@ Route::get('/', function () {
     ]);
 })->middleware('guest');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -43,6 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/order', [OrderController::class, 'index'])->name('order.index');
     Route::get('/order-menu', [OrderMenuController::class, 'index'])->name('orderMenu.index');
     Route::resource('dashboard-profile', DashboardProfileController::class);
+    Route::resource('dashboard', DashboardController::class);
 });
 
 require __DIR__.'/auth.php';
