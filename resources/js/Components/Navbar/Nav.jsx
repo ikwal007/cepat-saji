@@ -29,7 +29,7 @@ const Nav = ({ props }) => {
                             <a>Home</a>
                         </li>
                         <li>
-                            <a>Order</a>
+                            <Link href='/find-restorant'>Order</Link>
                         </li>
                     </ul>
                 </div>
@@ -41,7 +41,7 @@ const Nav = ({ props }) => {
                         <a>Home</a>
                     </li>
                     <li>
-                        <a>Order</a>
+                        <Link href='/find-restorant'>Order</Link>
                     </li>
                 </ul>
             </div>
@@ -70,7 +70,10 @@ const Nav = ({ props }) => {
                             tabIndex={0}
                             className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-neutral rounded-box w-52 transition ease-in-out duration-700">
                             <li>
-                                <Link href="/profile">Profile</Link>
+                                <Link href="/dashboard-profile">Profile</Link>
+                            </li>
+                            <li>
+                                <Link href="/dashboard">Dasboard</Link>
                             </li>
                             <li>
                                 <Link href="/logout" as='button' method='post' >Logout</Link>

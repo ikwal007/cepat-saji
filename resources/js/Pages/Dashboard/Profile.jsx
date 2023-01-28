@@ -1,9 +1,11 @@
 import AuthDashboard from '@/Layouts/AuthDashboard'
+import { Head } from '@inertiajs/inertia-react'
 import React from 'react'
 
 const Profile = props => {
     return (
         <AuthDashboard props={props}>
+            <Head title='Profile' />
             <div className="space-y-6 p-5 w-full min-h-[300px]">
                 <div className="space-y-3 rounded-xl p-5 w-full min-h-[300px] bg-orange-300 text-neutral">
                     <h2 className="text-lg font-bold">Profile Information</h2>

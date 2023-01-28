@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderMenuController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StaffController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -45,6 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/order-menu', [OrderMenuController::class, 'index'])->name('orderMenu.index');
     Route::resource('dashboard-profile', DashboardProfileController::class);
     Route::resource('dashboard', DashboardController::class);
+    Route::resource('staff', StaffController::class);
 });
 
 require __DIR__.'/auth.php';

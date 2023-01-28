@@ -1,11 +1,9 @@
-import AuthDashboard from '@/Layouts/AuthDashboard'
-import { Head } from '@inertiajs/inertia-react'
-import React from 'react'
+import AuthDashboard from '@/Layouts/AuthDashboard';
+import React from 'react';
 
-const Dashboard = props => {
+const Staff = (props) => {
     return (
         <AuthDashboard props={props}>
-            <Head title='Dashboard' />
             <div className="space-y-6 p-5 w-full min-h-[300px]">
                 <div className="space-y-3 rounded-xl p-5 w-full min-h-[300px] bg-orange-300 text-neutral">
                     <div className="overflow-x-auto">
@@ -49,17 +47,9 @@ const Dashboard = props => {
                         </table>
                     </div>
                 </div>
-                <div className="flex justify-center items-center space-y-3 rounded-xl p-5 w-full min-h-[300px] bg-orange-300 text-neutral">
-                    <ul className="steps steps-vertical lg:steps-horizontal">
-                        <li className="step step-primary">Order</li>
-                        <li className="step step-primary">Cooking</li>
-                        <li className="step">Driving</li>
-                        <li className="step">Finis</li>
-                    </ul>
-                </div>
             </div>
         </AuthDashboard>
-    )
+    );
 }
 
-export default Dashboard
+export default Staff;
