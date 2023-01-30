@@ -1,15 +1,35 @@
-import { Head, Link } from '@inertiajs/inertia-react'
-import React from 'react'
+import { Head, Link } from '@inertiajs/react'
+import React, { useState } from 'react'
 import Nav from '@/Components/Navbar/Nav'
 import Footer from '@/Components/Footer/Footer'
+import { router } from '@inertiajs/react'
 
 const FindRestorant = props => {
+    const [values, setValues] = useState({
+        id: '',
+    })
+
+    function handleChange(e) {
+        const key = e.target.id
+        const value = e.target.value
+        setValues(values => ({
+            ...values,
+            [key]: value,
+        }))
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        router.post('/order', values)
+    }
     return (
         <div className="flex flex-wrap">
             <Head title="Find restorant" />
             <Nav props={props} />
             <div className="flex flex-wrap w-full">
-                <form className="flex flex-wrap justify-center md:items-center md:space-y-0 md:space-x-3 space-y-3 w-full min-h-[400px] m-5 md:mx-20 md:mb-32">
+                <form
+                    className="flex flex-wrap justify-center md:items-center md:space-y-0 md:space-x-3 space-y-3 w-full min-h-[400px] m-5 md:mx-20 md:mb-32"
+                    onSubmit={handleSubmit}>
                     <div className="flex flex-wrap w-full items-center">
                         <div className="alert alert-info shadow-lg text-base-100">
                             <div>
@@ -30,17 +50,28 @@ const FindRestorant = props => {
                             </div>
                         </div>
                     </div>
-                    <select className="select select-warning w-full max-w-xs md:max-w-md lg:max-w-4xl">
-                        <option value={null}>Pick a Restorant</option>
-                        <option>Cheese</option>
-                        <option>Veggie</option>
-                        <option>Pepperoni</option>
-                        <option>Margherita</option>
-                        <option>Hawaiian</option>
+                    <select
+                        id="id"
+                        className="select select-warning w-full max-w-xs md:max-w-md lg:max-w-4xl"
+                        defaultValue={values.id}
+                        onChange={handleChange}
+                        required>
+                        <option value="">Pick a Restorant</option>
+                        {!props.allRestorant
+                            ? null
+                            : props.allRestorant.map((data, i) => {
+                                  return (
+                                      <option key={i} value={data.id}>
+                                          {data.address}
+                                      </option>
+                                  )
+                              })}
                     </select>
-                    <Link href='/order' className="btn btn-warning text-base-100">
+                    <button
+                        type="submit"
+                        className="btn btn-warning text-base-100">
                         Get Order
-                    </Link>
+                    </button>
                 </form>
             </div>
             <Footer />

@@ -1,4 +1,4 @@
-import { Head } from '@inertiajs/inertia-react'
+import { Head, router } from '@inertiajs/react'
 import React, { useEffect, useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore, { Pagination, Navigation, Mousewheel } from 'swiper/core'
@@ -14,27 +14,27 @@ SwiperCore.use([Pagination, Navigation])
 const OrderMenu = props => {
     const [swiperRef, setSwiperRef] = useState(null)
     const [cartShow, setCartShow] = useState(false)
-    const [cartDataFood, setCartDataFood] = useState([])
-    const [cartDataDring, setCartDataDring] = useState([])
-
-    const [addProduct, setAddProduct] = useState({
-        productName: '',
-        productPrice: '',
-        quantity: 1,
+    const [values, setValues] = useState({
+        order_id: props.dataOrder.id,
+        menu_id: null,
+        quanty: 1,
     })
 
-    const handleUpdateProduct = e => {
-        e.preventDefault()
-        setCartDataFood([...cartDataFood, addProduct])
-        setAddProduct({
-            productName: '',
-            productPrice: '',
-            quantity: 1,
-        })
+    function handleChange(e) {
+        const key = e.target.id
+        const value = e.target.value
+        setValues(values => ({
+            ...values,
+            [key]: value,
+        }))
     }
 
-    console.log('ini cart data', cartDataFood)
+    function handleSubmit(e) {
+        e.preventDefault()
+        router.post('/order-menu', values)
+    }
 
+    console.log(props)
     return (
         <div className="flex flex-wrap">
             <Head title="Order Menu" />
@@ -61,7 +61,7 @@ const OrderMenu = props => {
                                             Total Price
                                         </h3>
                                         <div className="text-xs">
-                                            Rp. 150000
+                                            Rp. {props.dataOrder.total_price}
                                         </div>
                                     </div>
                                 </div>
@@ -124,7 +124,7 @@ const OrderMenu = props => {
                 <div className="flex flex-col w-full">
                     <div className="flex flex-col w-full lg:flex-row p-5 md:p-0 md:px-20 md:py-32">
                         <div className="grid flex-grow h-20 card bg-base-300 rounded-box place-items-center font-bold uppercase">
-                            total price Rp. 100000
+                            total price Rp. {props.dataOrder.total_price}
                         </div>
                         <div className="divider lg:divider-horizontal">OR</div>
                         <button
@@ -145,112 +145,45 @@ const OrderMenu = props => {
                             }}
                             navigation={true}
                             className="w-full">
-                            <SwiperSlide className="flex justify-center p-5">
-                                <form
-                                    onSubmit={handleUpdateProduct}
-                                    className="card w-60 bg-base-100 shadow-xl">
-                                    <figure className="px-10 pt-10">
-                                        <img
-                                            src="/assets/imgs/static/pizza-sayur.png"
-                                            alt="Shoes"
-                                            className="rounded-xl"
-                                        />
-                                    </figure>
-                                    <div className="card-body items-center text-center">
-                                        <h2 className="card-title">pizza</h2>
-                                        <input
-                                            defaultValue={'pizza'}
-                                            onSubmi={e =>
-                                                setAddProduct({
-                                                    ...addProduct,
-                                                    productName: e.target.defaultValue,
-                                                })
-                                            }
-                                            type="hidden"
-                                            className="input input-bordered w-full max-w-xs"
-                                            disabled={true}
-                                        />
-                                        <p>Rp. 50000</p>
-                                        <input
-                                            defaultValue={50000}
-                                            onChange={e =>
-                                                setAddProduct({
-                                                    ...addProduct,
-                                                    productPrice:
-                                                        e.target.defaultValue,
-                                                })
-                                            }
-                                            type="hidden"
-                                            className="input input-bordered w-full max-w-xs"
-                                            disabled={true}
-                                        />
-                                        <div className="card-actions">
-                                            <button type='submit'
-                                                className="btn btn-primary">
-                                                Buy Now
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </SwiperSlide>
-                            <SwiperSlide className="flex justify-center p-5">
-                                <div className="card w-60 bg-base-100 shadow-xl">
-                                    <figure className="px-10 pt-10">
-                                        <img
-                                            src="/assets/imgs/static/pizza-sayur-keju.png"
-                                            alt="Shoes"
-                                            className="rounded-xl"
-                                        />
-                                    </figure>
-                                    <div className="card-body items-center text-center">
-                                        <h2 className="card-title">pizza</h2>
-                                        <p>Rp. 50000</p>
-                                        <div className="card-actions">
-                                            <button
-                                                onClick={() =>
-                                                    setCartDataFood([
-                                                        {
-                                                            nama: 'pizza-keju',
-                                                            price: '70000',
-                                                        },
-                                                    ])
-                                                }
-                                                className="btn btn-primary">
-                                                Buy Now
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide className="flex justify-center p-5">
-                                <div className="card w-60 bg-base-100 shadow-xl">
-                                    <figure className="px-10 pt-10">
-                                        <img
-                                            src="/assets/imgs/static/pizza-keju-tomat.png"
-                                            alt="Shoes"
-                                            className="rounded-xl"
-                                        />
-                                    </figure>
-                                    <div className="card-body items-center text-center">
-                                        <h2 className="card-title">pizza</h2>
-                                        <p>Rp. 50000</p>
-                                        <div className="card-actions">
-                                            <button
-                                                onClick={() =>
-                                                    setCartDataFood([
-                                                        {
-                                                            nama: 'pizza-keju',
-                                                            price: '50000',
-                                                        },
-                                                    ])
-                                                }
-                                                className="btn btn-primary">
-                                                Buy Now
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </SwiperSlide>
+                            {!props.food
+                                ? null
+                                : props.food.map((data, i) => {
+                                      return (
+                                          <SwiperSlide
+                                              key={i}
+                                              className="flex justify-center p-5">
+                                              <form
+                                                  onSubmit={handleSubmit}
+                                                  className="card w-60 bg-base-100 shadow-xl">
+                                                  <figure className="px-10 pt-10">
+                                                      <img
+                                                          src={data.img}
+                                                          alt="Shoes"
+                                                          className="rounded-xl"
+                                                      />
+                                                  </figure>
+                                                  <div className="card-body items-center text-center">
+                                                      <h2 className="card-title">
+                                                          {data.name}
+                                                      </h2>
+                                                      <p>Rp. {data.price}</p>
+                                                      <div className="card-actions">
+                                                          <button
+                                                              id="menu_id"
+                                                              value={data.id}
+                                                              onClick={
+                                                                  handleChange
+                                                              }
+                                                              type="submit"
+                                                              className="btn btn-primary max-w-[150px]">
+                                                              Add to cart
+                                                          </button>
+                                                      </div>
+                                                  </div>
+                                              </form>
+                                          </SwiperSlide>
+                                      )
+                                  })}
                         </Swiper>
                     </div>
                     <div className="flex flex-wrap justify-center space-y-5 p-5 md:p-0 md:px-20 md:py-32 min-h-[300px]">
@@ -265,66 +198,43 @@ const OrderMenu = props => {
                             }}
                             navigation={true}
                             className="w-full">
-                            <SwiperSlide className="flex justify-center p-5">
-                                <div className="card w-60 bg-base-100 shadow-xl">
-                                    <figure className="px-10 pt-10">
-                                        <img
-                                            src="/assets/imgs/static/jus-jeruk.png"
-                                            alt="Shoes"
-                                            className="rounded-xl"
-                                        />
-                                    </figure>
-                                    <div className="card-body items-center text-center">
-                                        <h2 className="card-title">pizza</h2>
-                                        <p>Rp. 50000</p>
-                                        <div className="card-actions">
-                                            <button className="btn btn-primary">
-                                                Buy Now
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide className="flex justify-center p-5">
-                                <div className="card w-60 bg-base-100 shadow-xl">
-                                    <figure className="px-10 pt-10">
-                                        <img
-                                            src="/assets/imgs/static/cocacola.png"
-                                            alt="Shoes"
-                                            className="rounded-xl"
-                                        />
-                                    </figure>
-                                    <div className="card-body items-center text-center">
-                                        <h2 className="card-title">pizza</h2>
-                                        <p>Rp. 50000</p>
-                                        <div className="card-actions">
-                                            <button className="btn btn-primary">
-                                                Buy Now
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide className="flex justify-center p-5">
-                                <div className="card w-60 bg-base-100 shadow-xl">
-                                    <figure className="px-10 pt-10">
-                                        <img
-                                            src="/assets/imgs/static/jus-mangga-alpukat.png"
-                                            alt="Shoes"
-                                            className="rounded-xl"
-                                        />
-                                    </figure>
-                                    <div className="card-body items-center text-center">
-                                        <h2 className="card-title">pizza</h2>
-                                        <p>Rp. 50000</p>
-                                        <div className="card-actions">
-                                            <button className="btn btn-primary">
-                                                Buy Now
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </SwiperSlide>
+                            {!props.drink
+                                ? null
+                                : props.drink.map((data, i) => {
+                                      return (
+                                          <SwiperSlide
+                                              key={i}
+                                              className="flex justify-center p-5">
+                                              <form onSubmit={handleSubmit} className="card w-60 bg-base-100 shadow-xl">
+                                                  <figure className="px-10 pt-10">
+                                                      <img
+                                                          src={data.img}
+                                                          alt="Shoes"
+                                                          className="rounded-xl"
+                                                      />
+                                                  </figure>
+                                                  <div className="card-body items-center text-center">
+                                                      <h2 className="card-title">
+                                                          {data.name}
+                                                      </h2>
+                                                      <p>Rp. {data.price}</p>
+                                                      <div className="card-actions">
+                                                          <button
+                                                              id="menu_id"
+                                                              value={data.id}
+                                                              onClick={
+                                                                  handleChange
+                                                              }
+                                                              type="submit"
+                                                              className="btn btn-primary max-w-[150px]">
+                                                              Add to cart
+                                                          </button>
+                                                      </div>
+                                                  </div>
+                                              </form>
+                                          </SwiperSlide>
+                                      )
+                                  })}
                         </Swiper>
                     </div>
                 </div>

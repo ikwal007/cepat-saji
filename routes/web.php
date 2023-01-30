@@ -42,8 +42,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/home', [HomeController::class, 'index'])->name('home.index');
     Route::get('/find-restorant', [FindRestorantController::class, 'index'])->name('findRestorant.index');
-    Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+    Route::post('/order', [OrderController::class, 'index'])->name('order.index');
+    Route::post('/create-order', [OrderController::class, 'store'])->name('order.store');
+    Route::get('/order', function () {
+        return redirect('find-restorant');
+    });
     Route::get('/order-menu', [OrderMenuController::class, 'index'])->name('orderMenu.index');
+    Route::post('/order-menu', [OrderMenuController::class, 'store'])->name('orderMenu.store');
     Route::resource('dashboard-profile', DashboardProfileController::class);
     Route::resource('dashboard', DashboardController::class);
     Route::resource('staff', StaffController::class);

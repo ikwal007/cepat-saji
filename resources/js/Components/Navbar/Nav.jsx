@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/inertia-react'
+import { Link } from '@inertiajs/react'
 import React from 'react'
 import { BiUser } from 'react-icons/bi'
 
@@ -26,7 +26,7 @@ const Nav = ({ props }) => {
                         tabIndex={0}
                         className="menu menu-compact dropdown-content mt-5 p-2 shadow bg-neutral rounded-box w-52">
                         <li>
-                            <a>Home</a>
+                            <Link href='/home'>Home</Link>
                         </li>
                         <li>
                             <Link href='/find-restorant'>Order</Link>
@@ -38,7 +38,7 @@ const Nav = ({ props }) => {
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
                     <li className="bg-base-100 rounded-3xl text-neutral">
-                        <a>Home</a>
+                        <Link href='/home'>Home</Link>
                     </li>
                     <li>
                         <Link href='/find-restorant'>Order</Link>

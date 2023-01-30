@@ -1,6 +1,6 @@
 import Visi from '@/Components/Card/Visi'
 import Auth from '@/Layouts/Auth'
-import { Head, Link } from '@inertiajs/inertia-react'
+import { Head, Link } from '@inertiajs/react'
 import React from 'react'
 import { BsSearch } from 'react-icons/bs'
 import { IoLogoAppleAppstore, IoLogoGooglePlaystore } from 'react-icons/io5'

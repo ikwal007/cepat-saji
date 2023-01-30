@@ -1,5 +1,5 @@
 import Guest from '@/Layouts/Guest'
-import { Link, Head } from '@inertiajs/inertia-react'
+import { Link, Head } from '@inertiajs/react'
 import ReactTypingEffect from 'react-typing-effect'
 
 export default function Welcome(props) {
