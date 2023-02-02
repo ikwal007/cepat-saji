@@ -14,4 +14,12 @@ class OrderMenu extends Model
      * @var array
      */
     protected $guarded = ['id'];
+
+    public function order() {
+        return $this->belongsTo(Order::class, 'order_id');
+    }
+
+    public function menu() {
+        return $this->belongsTo(Menu::class);
+    }
 }

@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Restorant extends Model
 {
     use HasFactory;
+
+    /**
+     * Get orders for the restaurant.
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

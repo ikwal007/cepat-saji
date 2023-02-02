@@ -21,7 +21,20 @@ class OrderMenuController extends Controller
         $food = Menu::where('type', 'food')->get();
         $drink = Menu::where('type', 'drink')->get();
         $findOrder = Order::where('user_id', Auth::user()->id)->first();
-        $cartList = (!$findOrder) ? null : OrderMenu::where('order_id', $findOrder->id)->get();
+        $cartList = (!$findOrder) ? null : $findOrder->orderMenu;
+        $cartListData = array();
+        foreach ($cartList as $data) {
+            $object = (object) [
+                'id' => $data->id,
+                'order_id' => $data->order_id,
+                'menu_id' => $data->menu_id,
+                'quanty' => $data->quanty,
+                'name' => $data->menu->name,
+                'price' => $data->menu->price,
+                'img' => $data->menu->img,
+              ];
+            $cartListData[] = $object;
+        }
         if (!$findOrder) {
             return redirect('/find-restorant');
         } else {
@@ -29,7 +42,7 @@ class OrderMenuController extends Controller
                 'food' => $food,
                 'drink' => $drink,
                 'dataOrder' => $findOrder,
-                'cartList' => $cartList
+                'cartList' => $cartListData
             ]);
         }
     }
@@ -53,10 +66,29 @@ class OrderMenuController extends Controller
     public function store(Request $request)
     {
         $orderMenu = new OrderMenu();
-        $orderMenu->order_id = $request->order_id;
-        $orderMenu->menu_id = $request->menu_id;
-        $orderMenu->quanty = $request->quanty;
-        $orderMenu->save();
+        $findOrder = Order::find($request->order_id);
+        $findOrderMenuFromRequest = $findOrder->orderMenu->where('menu_id', $request->menu_id)->first();
+        function editTotalPrice($findOrder, $request) {
+            $subTotalPrice = array();
+            foreach (OrderMenu::where('order_id', $request->order_id)->get() as  $menus) {
+                $menu = $menus;
+                $subTotalPrice[] = $menu->menu->price * $menu->quanty;
+            }
+            $newTotalPrice = array_sum($subTotalPrice);
+            $findOrder->total_price = $newTotalPrice;
+            $findOrder->save();
+        };
+        if (isset($findOrderMenuFromRequest->menu)) {
+            $findOrderMenuFromRequest->quanty = $findOrderMenuFromRequest->quanty + $request->quanty;
+            $findOrderMenuFromRequest->save();
+            editTotalPrice($findOrder, $request);
+        } else {
+            $orderMenu->order_id = $request->order_id;
+            $orderMenu->menu_id = $request->menu_id;
+            $orderMenu->quanty = $request->quanty;
+            $orderMenu->save();
+            editTotalPrice($findOrder, $request);
+        };
     }
 
     /**
