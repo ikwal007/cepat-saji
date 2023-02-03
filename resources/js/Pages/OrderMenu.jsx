@@ -1,4 +1,4 @@
-import { Head, router } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
 import React, { useEffect, useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore, { Pagination, Navigation, Mousewheel } from 'swiper/core'
@@ -34,7 +34,6 @@ const OrderMenu = props => {
         router.post('/order-menu', values)
     }
 
-    console.log(props)
     return (
         <div className="flex flex-wrap">
             <Head title="Order Menu" />
@@ -66,9 +65,9 @@ const OrderMenu = props => {
                                 </div>
                             </div>
                             <div className="flex-none">
-                                <button className="btn btn-info text-white btn-sm">
-                                    See
-                                </button>
+                                <Link href='/dashboard' className="btn btn-info text-white btn-sm">
+                                    Pay
+                                </Link>
                             </div>
                         </div>
                         <button
@@ -114,14 +113,14 @@ const OrderMenu = props => {
                                                       </span>
                                                   </label>
                                                   <label className="input-group">
-                                                      <span className='cursor-pointer'>-</span>
+                                                      <Link href={`/order-menu/${data.id}`} type='submit' as='button' method='delete' data={data} className='bg-info p-3'>-</Link>
                                                       <input
                                                           type="text"
                                                           value={data.quanty}
                                                           className="input input-bordered"
                                                           disabled={true}
                                                       />
-                                                      <span className='cursor-pointer'>+</span>
+                                                      <Link href={`/order-menu/${data.id}`} type='submit' as='button' method='put' data={data} className='bg-info p-3'>+</Link>
                                                   </label>
                                               </div>
                                               <div className="card-actions justify-end">

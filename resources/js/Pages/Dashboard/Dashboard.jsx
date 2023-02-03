@@ -1,5 +1,5 @@
 import AuthDashboard from '@/Layouts/AuthDashboard'
-import { Head } from '@inertiajs/inertia-react'
+import { Head } from '@inertiajs/react'
 import React from 'react'
 
 const Dashboard = props => {

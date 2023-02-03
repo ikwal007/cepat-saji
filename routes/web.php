@@ -49,6 +49,8 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/order-menu', [OrderMenuController::class, 'index'])->name('orderMenu.index');
     Route::post('/order-menu', [OrderMenuController::class, 'store'])->name('orderMenu.store');
+    Route::put('/order-menu/{id}', [OrderMenuController::class, 'update'])->name('orderMenu.update');
+    Route::delete('/order-menu/{id}', [OrderMenuController::class, 'destroy'])->name('orderMenu.delete');
     Route::resource('dashboard-profile', DashboardProfileController::class);
     Route::resource('dashboard', DashboardController::class);
     Route::resource('staff', StaffController::class);

@@ -11,6 +11,17 @@ use Inertia\Inertia;
 
 class OrderMenuController extends Controller
 {
+    public function editTotalPrice($findOrder, $request)
+    {
+        $subTotalPrice = array();
+        foreach (OrderMenu::where('order_id', $request->order_id)->get() as  $menus) {
+            $menu = $menus;
+            $subTotalPrice[] = $menu->menu->price * $menu->quanty;
+        }
+        $newTotalPrice = array_sum($subTotalPrice);
+        $findOrder->total_price = $newTotalPrice;
+        $findOrder->save();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -32,7 +43,7 @@ class OrderMenuController extends Controller
                 'name' => $data->menu->name,
                 'price' => $data->menu->price,
                 'img' => $data->menu->img,
-              ];
+            ];
             $cartListData[] = $object;
         }
         if (!$findOrder) {
@@ -46,17 +57,7 @@ class OrderMenuController extends Controller
             ]);
         }
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -68,49 +69,18 @@ class OrderMenuController extends Controller
         $orderMenu = new OrderMenu();
         $findOrder = Order::find($request->order_id);
         $findOrderMenuFromRequest = $findOrder->orderMenu->where('menu_id', $request->menu_id)->first();
-        function editTotalPrice($findOrder, $request) {
-            $subTotalPrice = array();
-            foreach (OrderMenu::where('order_id', $request->order_id)->get() as  $menus) {
-                $menu = $menus;
-                $subTotalPrice[] = $menu->menu->price * $menu->quanty;
-            }
-            $newTotalPrice = array_sum($subTotalPrice);
-            $findOrder->total_price = $newTotalPrice;
-            $findOrder->save();
-        };
+
         if (isset($findOrderMenuFromRequest->menu)) {
             $findOrderMenuFromRequest->quanty = $findOrderMenuFromRequest->quanty + $request->quanty;
             $findOrderMenuFromRequest->save();
-            editTotalPrice($findOrder, $request);
+            $this->editTotalPrice($findOrder, $request);
         } else {
             $orderMenu->order_id = $request->order_id;
             $orderMenu->menu_id = $request->menu_id;
             $orderMenu->quanty = $request->quanty;
             $orderMenu->save();
-            editTotalPrice($findOrder, $request);
+            $this->editTotalPrice($findOrder, $request);
         };
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -122,7 +92,11 @@ class OrderMenuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $findOrder = Order::find($request->order_id);
+        $findOrderMenuFromRequest = $findOrder->orderMenu->where('menu_id', $request->menu_id)->first();
+        $findOrderMenuFromRequest->quanty = $request->quanty + 1;
+        $findOrderMenuFromRequest->save();
+        $this->editTotalPrice($findOrder, $request);
     }
 
     /**
@@ -131,8 +105,12 @@ class OrderMenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request ,$id)
     {
-        //
+        $findOrder = Order::find($request->order_id);
+        $findOrderMenuFromRequest = $findOrder->orderMenu->where('menu_id', $request->menu_id)->first();
+        $findOrderMenuFromRequest->quanty = $request->quanty - 1;
+        ($findOrderMenuFromRequest->quanty == 0) ? $findOrderMenuFromRequest->delete() : $findOrderMenuFromRequest->save() ;
+        $this->editTotalPrice($findOrder, $request);
     }
 }

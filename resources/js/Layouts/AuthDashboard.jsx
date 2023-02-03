@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/inertia-react'
+import { Link } from '@inertiajs/react'
 import React from 'react'
 import { FaUserCog } from 'react-icons/fa'
 import { IoLogOut } from 'react-icons/io5'
