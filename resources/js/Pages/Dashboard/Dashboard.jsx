@@ -3,9 +3,10 @@ import { Head } from '@inertiajs/react'
 import React from 'react'
 
 const Dashboard = props => {
+    console.log(props)
     return (
         <AuthDashboard props={props}>
-            <Head title='Dashboard' />
+            <Head title="Dashboard" />
             <div className="space-y-6 p-5 w-full min-h-[300px]">
                 <div className="space-y-3 rounded-xl p-5 w-full min-h-[300px] bg-orange-300 text-neutral">
                     <div className="overflow-x-auto">
@@ -19,31 +20,27 @@ const Dashboard = props => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th>1</th>
-                                    <td>pizza tomat</td>
-                                    <td>3</td>
-                                    <td>300000</td>
-                                </tr>
-                                <tr>
-                                    <th>2</th>
-                                    <td>Burger</td>
-                                    <td>2</td>
-                                    <td>100000</td>
-                                </tr>
-                                <tr>
-                                    <th>3</th>
-                                    <td>cocacola 3L</td>
-                                    <td>3</td>
-                                    <td>100000</td>
-                                </tr>
+                                {props.mainData
+                                    ? props.mainData.dataListMenu.map(
+                                          (data, i) => {
+                                              return (
+                                                  <tr>
+                                                      <th>{i+1}</th>
+                                                      <td>{data.name}</td>
+                                                      <td>{data.quanty}</td>
+                                                      <td>{data.subPrice}</td>
+                                                  </tr>
+                                              )
+                                          },
+                                      )
+                                    : null}
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th></th>
                                     <th></th>
                                     <th>Total Price</th>
-                                    <th>Rp. 500000</th>
+                                    <th>Rp. {props.mainData.dataTotalPrice}</th>
                                 </tr>
                             </tfoot>
                         </table>
