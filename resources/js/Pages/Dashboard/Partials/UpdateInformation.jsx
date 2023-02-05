@@ -2,10 +2,11 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import { Link, useForm, usePage } from '@inertiajs/inertia-react';
+import { Link, useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
 
-export default function UpdateProfileInformation({ mustVerifyEmail, status, className }) {
+const UpdateInformation = ({ mustVerifyEmail, status, className }) => {
+
     const user = usePage().props.auth.user;
 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
@@ -20,16 +21,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     };
 
     return (
-        <section className={className}>
-            <header>
-                <h2 className="text-lg font-medium text-gray-900">Profile Information</h2>
-
-                <p className="mt-1 text-sm text-gray-600">
-                    Update your account's profile information and email address.
-                </p>
-            </header>
-
-            <form onSubmit={submit} className="mt-6 space-y-6">
+        <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>
                     <InputLabel for="name" value="Name" />
 
@@ -97,6 +89,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     </Transition>
                 </div>
             </form>
-        </section>
     );
 }
+
+export default UpdateInformation;

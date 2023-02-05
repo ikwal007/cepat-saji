@@ -24,7 +24,7 @@ const Dashboard = props => {
                                     ? props.mainData.dataListMenu.map(
                                           (data, i) => {
                                               return (
-                                                  <tr>
+                                                  <tr key={i}>
                                                       <th>{i+1}</th>
                                                       <td>{data.name}</td>
                                                       <td>{data.quanty}</td>
@@ -45,14 +45,6 @@ const Dashboard = props => {
                             </tfoot>
                         </table>
                     </div>
-                </div>
-                <div className="flex justify-center items-center space-y-3 rounded-xl p-5 w-full min-h-[300px] bg-orange-300 text-neutral">
-                    <ul className="steps steps-vertical lg:steps-horizontal">
-                        <li className="step step-primary">Order</li>
-                        <li className="step step-primary">Cooking</li>
-                        <li className="step">Driving</li>
-                        <li className="step">Finis</li>
-                    </ul>
                 </div>
             </div>
         </AuthDashboard>
